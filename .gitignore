@@ -1,0 +1,7 @@
+# Ignore build output folders (commonly used names)
+
+*.o
+*.exe
+*.out
+
+.vscode/
