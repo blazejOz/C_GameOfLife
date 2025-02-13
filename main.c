@@ -14,16 +14,13 @@ void printGrid();
 
 int main()
 {
-    populateGrid();
-    printGrid();
-    checkCells();
-    printGrid();
+    populateGrid();   
 
-    // while(1){
-    //     checkCells();
-    //     printGrid();
-    //     sleep(1);
-    // }
+    while(1){
+        checkCells();
+        printGrid();
+        sleep(1);
+    }
 
     return 0;
 }
@@ -38,6 +35,9 @@ void populateGrid()
     grid[r - 1][c + 1] = 1;
     grid[r - 1][c - 2] = 1;
     grid[r + 1][c] = 1;
+    grid[r + 1][c-1] = 1;
+    grid[r + 1][c+1] = 1;
+    
 }
 
 void checkCells()
@@ -98,19 +98,20 @@ int aliveNeighbours(int r , int c)
     if(isAlive == 0 && aliveCount == 3 )
         return 1; 
 
+    return isAlive;
 }
 
 void printGrid()
 {
     for (int i = 0; i < ROWS; i++){
         for (int j = 0; j < COLS; j++){
-            printf("%d ", grid[i][j]);
-            /*
+           // printf("%d ", grid[i][j]);
+            
             if (grid[i][j] == 1)
                 printf("\033[47m  ");
             else
                 printf("\033[0m  ");
-            */
+            
         }
         putchar('\n');
     }
