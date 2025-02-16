@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ncurses.h>
+
 
 #define ROWS 20
 #define COLS 30
 
 int grid[ROWS][COLS] = {0};
 
+void start();
 void populateGrid();
 void checkCells();
 int aliveNeighbours(int,int);
@@ -14,15 +17,32 @@ void printGrid();
 
 int main()
 {
-    populateGrid();   
 
-    while(1){
-        checkCells();
-        printGrid();
-        sleep(1);
-    }
+
+    populateGrid();  
+
+    initscr();
+    WINDOW *win = newwin(ROWS, COLS, 0, 0);
+    box(win, ACS_VLINE, ACS_HLINE); 
+    //printGrid(win);
+    refresh();
+    wrefresh(win);
+    getch();
+    endwin();
+
+    // while(1){
+    //     checkCells();
+    //     printGrid();
+    //     sleep(1);
+    // }
 
     return 0;
+}
+
+void start()
+{
+    
+
 }
 
 void populateGrid()
@@ -101,7 +121,7 @@ int aliveNeighbours(int r , int c)
     return isAlive;
 }
 
-void printGrid()
+void printGrid(WINDOW *win)
 {
     for (int i = 0; i < ROWS; i++){
         for (int j = 0; j < COLS; j++){
