@@ -22,11 +22,22 @@ int main()
     populateGrid();  
 
     initscr();
+    start_color();
+    //Defining colors
+    init_pair(1, COLOR_BLACK, COLOR_WHITE); // white background
+    init_pair(2, COLOR_WHITE, COLOR_BLACK); // black background
+
     WINDOW *win = newwin(ROWS, COLS, 0, 0);
     box(win, ACS_VLINE, ACS_HLINE); 
-    //printGrid(win);
-    refresh();
-    wrefresh(win);
+    while(1)
+    {
+        box(win, ACS_VLINE, ACS_HLINE);
+        checkCells();
+        printGrid(win);
+        refresh();
+        wrefresh(win);
+        sleep(1);
+    }    
     getch();
     endwin();
 
@@ -123,14 +134,19 @@ int aliveNeighbours(int r , int c)
 
 void printGrid(WINDOW *win)
 {
-    for (int i = 0; i < ROWS; i++){
-        for (int j = 0; j < COLS; j++){
-           // printf("%d ", grid[i][j]);
+    for (int i = 1; i < ROWS-1; i++){
+        for (int j = 1; j < COLS-1; j++){
+           
             
-            if (grid[i][j] == 1)
-                printf("\033[47m  ");
-            else
-                printf("\033[0m  ");
+            if (grid[i][j] == 1){
+                wattron(win, COLOR_PAIR(1));
+                mvwprintw(win, i, j , " ");
+                wattroff(win, COLOR_PAIR(1));
+            }else{
+                wattron(win, COLOR_PAIR(2));
+                mvwprintw(win, i , j , " ");
+                wattroff(win, COLOR_PAIR(2));
+            }    
             
         }
         putchar('\n');
