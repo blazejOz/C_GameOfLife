@@ -9,7 +9,7 @@
 
 int grid[ROWS][COLS] = {0};
 
-void start();
+void startUI();
 void populateGrid();
 void checkCells();
 int aliveNeighbours(int,int);
@@ -22,6 +22,17 @@ int main()
     populateGrid();  
 
     initscr();
+    startUI(); 
+    getch();
+    endwin();
+
+    return 0;
+}
+
+void startUI()
+{
+    noecho();
+    curs_set(0);
     start_color();
     //Defining colors
     init_pair(1, COLOR_BLACK, COLOR_WHITE); // white background
@@ -38,21 +49,6 @@ int main()
         wrefresh(win);
         sleep(1);
     }    
-    getch();
-    endwin();
-
-    // while(1){
-    //     checkCells();
-    //     printGrid();
-    //     sleep(1);
-    // }
-
-    return 0;
-}
-
-void start()
-{
-    
 
 }
 
@@ -140,7 +136,7 @@ void printGrid(WINDOW *win)
             
             if (grid[i][j] == 1){
                 wattron(win, COLOR_PAIR(1));
-                mvwprintw(win, i, j , " ");
+                mvwprintw(win, i , j , " ");
                 wattroff(win, COLOR_PAIR(1));
             }else{
                 wattron(win, COLOR_PAIR(2));
