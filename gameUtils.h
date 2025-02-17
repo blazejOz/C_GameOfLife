@@ -6,9 +6,10 @@
 #define ROWS 20
 #define COLS 30
 
-int grid[ROWS][COLS] = {0};
+extern int grid[ROWS][COLS];
 
 void startUI();
 void checkCells();
 int aliveNeighbours(int,int);
 void printGrid();
+void populateGrid();

@@ -1,5 +1,7 @@
 #include "gameUtils.h"
 
+int grid[ROWS][COLS] = {0};
+
 int aliveNeighbours(int r , int c)
 {
     int aliveCount = 0;
