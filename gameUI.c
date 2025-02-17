@@ -1,5 +1,10 @@
 #include "gameUtils.h"
 
+void startUI();
+void printGrid(WINDOW*);
+void userInput();
+
+
 void startUI()
 {
     noecho();
@@ -13,7 +18,7 @@ void startUI()
         box(win, ACS_VLINE, ACS_HLINE);
         checkCells();
         printGrid(win);
-        refresh();
+        //refresh();
         wrefresh(win);
         sleep(1);
     }    
@@ -44,4 +49,10 @@ void printGrid(WINDOW *win)
         }
         putchar('\n');
     }
+}
+
+void userInput()
+{
+    
+
 }

@@ -11,5 +11,4 @@ extern int grid[ROWS][COLS];
 void startUI();
 void checkCells();
 int aliveNeighbours(int,int);
-void printGrid();
 void populateGrid();

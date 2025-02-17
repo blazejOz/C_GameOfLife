@@ -34,16 +34,8 @@ int aliveNeighbours(int r , int c)
     return isAlive;
 }
 
-/*
-Function checking surrounding cells for alive ones
-(r-1,c-1)|(r-1,c)|(r-1,c+1)
-(r  ,c-1)|(r  ,c)|(r  ,c+1)
-(r+1,c-1)|(r+1,c)|(r+1,c+1)
-
-serching around cell - grid[r][c]
-
-*/
-
+// Function checking surrounding cells for alive ones
+// serching around cell - grid[r][c]
 void checkCells()
 {
     int tempGrid[ROWS][COLS] = {0};
@@ -60,5 +52,4 @@ void checkCells()
             tempGrid[i][j] = 0;
         }
     }    
-
 }
