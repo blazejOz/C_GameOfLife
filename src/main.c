@@ -6,6 +6,9 @@ int main()
 {
     game_init_random();
     tui_print_board();
+    game_step();
+    putchar('\n');
+    tui_print_board();
     
     // tui_init();
     // int selected = tui_main_menu();

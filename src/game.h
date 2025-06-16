@@ -9,7 +9,7 @@ extern int board[BOARD_HEIGHT][BOARD_WIDTH];
 void game_init_random();
 void game_init_empty();
 void game_step();
-int game_get_cell_state();
+int game_get_cell();
 void game_set_cell(int x, int y, int state);
 
 #endif
