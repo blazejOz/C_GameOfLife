@@ -14,6 +14,7 @@ void tui_init() {
     keypad(stdscr, TRUE); // Enable arrow keys
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE); // White background
+    init_pair(2, COLOR_WHITE, COLOR_BLACK); // Black background
 }
 
 void tui_quit() {
@@ -58,8 +59,17 @@ void tui_print_board()
 {
     for(int y = 0; y < BOARD_HEIGHT; y++) {
         for(int x = 0; x < BOARD_WIDTH; x++) {
-            printf("%d", board[y][x]);
+            int cell = game_get_cell(y, x);
+            if(cell ==  1){
+                attron(COLOR_PAIR(1));
+                mvaddch(y, x, ' ');
+                attroff(COLOR_PAIR(1));
+            } else {
+                attron(COLOR_PAIR(2));
+                mvaddch(y, x, ' ');
+                attroff(COLOR_PAIR(2));
+            }
         }
-        putchar('\n');
     }
+    refresh();
 }
