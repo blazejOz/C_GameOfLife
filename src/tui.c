@@ -1,58 +1,54 @@
-#include "gameUtils.h"
+#include <ncurses.h>
+#include "tui.h"
 
-void startUI();
-void printGrid(WINDOW*);
-void userInput();
+#define MENU_ITEMS 3
 
+const char *menu_options[MENU_ITEMS] = {"DRAW", "RANDOM", "EXIT"};
 
-void startUI()
-{
+void tui_init() {
+    initscr();
     noecho();
-    curs_set(0);
-   
-
-    WINDOW *win = newwin(ROWS, COLS, 0, 0);
-    box(win, ACS_VLINE, ACS_HLINE); 
-    while(1)
-    {
-        box(win, ACS_VLINE, ACS_HLINE);
-        checkCells();
-        printGrid(win);
-        //refresh();
-        wrefresh(win);
-        sleep(1);
-    }    
-}
-
-void printGrid(WINDOW *win)
-{
+    cbreak();
+    curs_set(FALSE);
+    keypad(stdscr, TRUE); // Enable arrow keys
     start_color();
-    //Defining colors
-    init_pair(1, COLOR_BLACK, COLOR_WHITE); // white background
-    init_pair(2, COLOR_WHITE, COLOR_BLACK); // black background
-
-    for (int i = 1; i < ROWS-1; i++){
-        for (int j = 1; j < COLS-1; j++){
-
-            if (grid[i][j] == 1)
-            {
-                wattron(win, COLOR_PAIR(1));
-                mvwprintw(win, i , j , " ");
-                wattroff(win, COLOR_PAIR(1));
-            }else
-            {
-                wattron(win, COLOR_PAIR(2));
-                mvwprintw(win, i , j , " ");
-                wattroff(win, COLOR_PAIR(2));
-            }
-
-        }
-        putchar('\n');
-    }
+    init_pair(1, COLOR_BLACK, COLOR_WHITE); // White background
 }
 
-void userInput()
-{
-    
+void tui_quit() {
+    endwin();
+}
 
+int tui_main_menu() {
+    int choice = 0;
+    int ch;
+
+    while (1) {
+        clear();
+        for (int i = 0; i < MENU_ITEMS; i++) {
+            if (i == choice) {
+                attron(COLOR_PAIR(1));
+                mvprintw(3 + i, 4, "%s", menu_options[i]);
+                attroff(COLOR_PAIR(1));
+            } else {
+                mvprintw(3 + i, 4, "%s", menu_options[i]);
+            }
+        }
+        refresh();
+
+        ch = getch();
+        switch (ch) {
+            case KEY_UP:
+                choice = (choice == 0) ? MENU_ITEMS - 1 : choice - 1;
+                break;
+            case KEY_DOWN:
+                choice = (choice == MENU_ITEMS - 1) ? 0 : choice + 1;
+                break;
+            case 10: // ENTER key
+            case KEY_ENTER:
+                return choice;
+            default:
+                break;
+        }
+    }
 }
