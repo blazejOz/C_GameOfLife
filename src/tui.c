@@ -55,6 +55,20 @@ int tui_main_menu() {
     }
 }
 
+void tui_run_simulation()
+{
+    nodelay(stdscr, TRUE);
+    while (1){
+        tui_print_board();
+        napms(100);
+        int ch = getch();
+        if (ch == 'q' || ch == 'Q')
+            break;
+        game_step();
+    }
+    nodelay(stdscr, FALSE);
+}
+
 void tui_print_board()
 {
     for(int y = 0; y < BOARD_HEIGHT; y++) {
