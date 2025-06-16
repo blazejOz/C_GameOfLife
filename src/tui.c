@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include "tui.h"
+#include "game.h"
 
 #define MENU_ITEMS 3
 
@@ -50,5 +51,15 @@ int tui_main_menu() {
             default:
                 break;
         }
+    }
+}
+
+void tui_print_board()
+{
+    for(int y = 0; y < BOARD_HEIGHT; y++) {
+        for(int x = 0; x < BOARD_WIDTH; x++) {
+            printf("%d", board[y][x]);
+        }
+        putchar('\n');
     }
 }
