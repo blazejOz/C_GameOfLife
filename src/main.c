@@ -8,6 +8,8 @@ int main()
         int choice = tui_main_menu(); // return menu choice
         if (choice == 0) {
             // DRAW
+            game_init_empty();
+            tui_draw_mode();
         } else if (choice == 1) {
             // RANDOM 
             game_init_random();
