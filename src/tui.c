@@ -15,8 +15,9 @@ void tui_init() {
     keypad(stdscr, TRUE);
     main_board_win = newwin(BOARD_HEIGHT+2, BOARD_WIDTH+2, 1, 1);
     start_color();
-    init_pair(1, COLOR_BLACK, COLOR_WHITE);
-    init_pair(2, COLOR_WHITE, COLOR_BLACK);
+    init_pair(1, COLOR_BLACK, COLOR_WHITE); // WHITE BACK GROND
+    init_pair(2, COLOR_WHITE, COLOR_BLACK); // BLACK BACK GROUND
+    init_pair(3, COLOR_RED, COLOR_BLACK); // RED TEXT
 }
 
 void tui_quit() {
@@ -63,19 +64,28 @@ void tui_draw_mode() {
     while(1){
         box(main_board_win, 0, 0);
         tui_print_board(main_board_win);
-        wmove(main_board_win, cur_y + 1, cur_x + 1);
+        wattron(main_board_win, COLOR_PAIR(3));
+        mvwaddch(main_board_win, cur_y + 1, cur_x + 1, 'X');
+        wattroff(main_board_win, COLOR_PAIR(3));
         wrefresh(main_board_win);
         int ch = wgetch(main_board_win);
 
         switch (ch) {
+            case 'w':
             case KEY_UP:    if (cur_y > 0) cur_y--; break;
+            case 's':
             case KEY_DOWN:  if (cur_y < BOARD_HEIGHT - 1) cur_y++; break;
+            case 'a':
             case KEY_LEFT:  if (cur_x > 0) cur_x--; break;
+            case 'd':
             case KEY_RIGHT: if (cur_x < BOARD_WIDTH - 1) cur_x++; break;
             case 'q':       return; // exit draw mode
-            case ' ': // Toggle cell on space
+            case ' ':
                 game_set_cell(cur_y, cur_x, !game_get_cell(cur_y, cur_x));
                 break;
+            case 10:
+            case KEY_ENTER:
+                tui_run_simulation();
         }
     }
 }
