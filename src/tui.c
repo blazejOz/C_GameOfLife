@@ -10,10 +10,10 @@ const char *menu_options[MENU_ITEMS] = {"DRAW", "RANDOM", "EXIT"};
 void tui_init() {
     initscr();
     int term_height , term_width;
-    getmaxyx(stdscr, term_height, term_width);
+    getmaxyx(stdscr, term_height, term_width); // get terminal sized
 
-    board_height = term_height - 2;
-    board_width = term_width - 2;
+    board_height = term_height - 4;
+    board_width = term_width - 4;
     game_alloc_board();
 
     noecho();
@@ -71,7 +71,7 @@ void tui_draw_mode() {
     while(1){
         box(main_board_win, 0, 0);
         tui_print_board(main_board_win);
-        // cursor setup
+        // X setup
         wattron(main_board_win, COLOR_PAIR(3));
         mvwaddch(main_board_win, cur_y + 1, cur_x + 1, 'X');
         wattroff(main_board_win, COLOR_PAIR(3));
