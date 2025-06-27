@@ -28,6 +28,7 @@ void tui_init() {
 }
 
 void tui_quit() {
+    game_free_board();
     delwin(main_board_win);
     endwin();
 }
@@ -50,9 +51,11 @@ int tui_main_menu() {
 
         ch = getch();
         switch (ch) {
+            case 's':
             case KEY_UP:
                 choice = (choice == 0) ? MENU_ITEMS - 1 : choice - 1;
                 break;
+            case 's':
             case KEY_DOWN:
                 choice = (choice == MENU_ITEMS - 1) ? 0 : choice + 1;
                 break;
@@ -71,7 +74,7 @@ void tui_draw_mode() {
     while(1){
         box(main_board_win, 0, 0);
         tui_print_board(main_board_win);
-        // X setup
+        // X icon setup
         wattron(main_board_win, COLOR_PAIR(3));
         mvwaddch(main_board_win, cur_y + 1, cur_x + 1, 'X');
         wattroff(main_board_win, COLOR_PAIR(3));

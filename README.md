@@ -37,7 +37,7 @@ make
 ## Controls
 
 - **Main Menu:**  
-  - Use **arrow keys** to navigate.
+  - Use **arrow keys** or **WASD** to navigate.
   - **Enter** to select.
 
 - **Draw Mode:**  
