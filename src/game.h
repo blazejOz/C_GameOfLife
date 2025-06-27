@@ -2,10 +2,11 @@
 
 #define GAME_H
 
-#define BOARD_WIDTH 30
-#define BOARD_HEIGHT 20
-extern int board[BOARD_HEIGHT][BOARD_WIDTH];
+extern int board_height, board_width;
+extern int **board;
 
+void game_alloc_board();
+void game_free_board();
 void game_init_random();
 void game_init_empty();
 void game_step();

@@ -9,11 +9,18 @@ const char *menu_options[MENU_ITEMS] = {"DRAW", "RANDOM", "EXIT"};
 
 void tui_init() {
     initscr();
+    int term_height , term_width;
+    getmaxyx(stdscr, term_height, term_width);
+
+    board_height = term_height - 2;
+    board_width = term_width - 2;
+    game_alloc_board();
+
     noecho();
     cbreak();
     curs_set(FALSE);
     keypad(stdscr, TRUE);
-    main_board_win = newwin(BOARD_HEIGHT+2, BOARD_WIDTH+2, 1, 1);
+    main_board_win = newwin(board_height+2, board_width+2, 1, 1);
     start_color();
     init_pair(1, COLOR_BLACK, COLOR_WHITE); // WHITE BACK GROND
     init_pair(2, COLOR_WHITE, COLOR_BLACK); // BLACK BACK GROUND
@@ -64,9 +71,11 @@ void tui_draw_mode() {
     while(1){
         box(main_board_win, 0, 0);
         tui_print_board(main_board_win);
+        // cursor setup
         wattron(main_board_win, COLOR_PAIR(3));
         mvwaddch(main_board_win, cur_y + 1, cur_x + 1, 'X');
         wattroff(main_board_win, COLOR_PAIR(3));
+
         wrefresh(main_board_win);
         int ch = wgetch(main_board_win);
 
@@ -74,17 +83,17 @@ void tui_draw_mode() {
             case 'w':
             case KEY_UP:    if (cur_y > 0) cur_y--; break;
             case 's':
-            case KEY_DOWN:  if (cur_y < BOARD_HEIGHT - 1) cur_y++; break;
+            case KEY_DOWN:  if (cur_y < board_height - 1) cur_y++; break;
             case 'a':
             case KEY_LEFT:  if (cur_x > 0) cur_x--; break;
             case 'd':
-            case KEY_RIGHT: if (cur_x < BOARD_WIDTH - 1) cur_x++; break;
+            case KEY_RIGHT: if (cur_x < board_width - 1) cur_x++; break;
             case 'q':       return; // exit draw mode
-            case ' ':
+            case ' ': // toggle alive/dead cells
                 game_set_cell(cur_y, cur_x, !game_get_cell(cur_y, cur_x));
                 break;
             case 10:
-            case KEY_ENTER:
+            case KEY_ENTER: // start 
                 tui_run_simulation();
         }
     }
@@ -106,8 +115,8 @@ void tui_run_simulation() {
 }
 
 void tui_print_board(WINDOW *win) {
-    for(int y = 0; y < BOARD_HEIGHT; y++) {
-        for(int x = 0; x < BOARD_WIDTH; x++) {
+    for(int y = 0; y < board_height; y++) {
+        for(int x = 0; x < board_width; x++) {
             int cell = game_get_cell(y, x);
             if(cell ==  1){
                 wattron(win, COLOR_PAIR(1));
